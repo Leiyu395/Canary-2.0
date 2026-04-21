@@ -227,7 +227,7 @@ label start:
     label Prologue:
         scene bg bedroom
 
-        play music "birdsong.mp3"
+        play music "bird.mp3"
 
         n "I have a bad habit of waking up and immediately feeling anxious about something."
         n "This morning, I can't figure out what it is."
