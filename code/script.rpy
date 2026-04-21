@@ -160,7 +160,7 @@ screen food_puzzle:
             ypos 0.5
             idle "continue-button.png"
             hover "continue-button.png"
-            action [Hide("displayTextScreen"), Jump("Sucessful_cooking")]
+            action [Play("sound", "audio/click.mp3"), Hide("displayTextScreen"), Jump("Sucessful_cooking")]
             hovered Show("displayTextScreen", displayText = "Eat the food!")
             unhovered Hide("displayTextScreen")
 
@@ -220,16 +220,12 @@ label start:
     $ food_cooked_tries = 1
     $ food_difficulty = 2
 
-    # Set default volume
-    define config.default_music_volume = 0.4
-    define config.default_sfx_volume = 0.7
-    define config.default_voice_volume = 0.7
+    window show
 
     jump Prologue
 
     label Prologue:
         scene bg bedroom
-        with fade
 
         play music "birdsong.mp3"
 
@@ -337,6 +333,8 @@ label start:
         m "I'm coming, I'm coming..."
 
         scene bg kitchen
+        hide maria
+        with dissolve
 
         jump Look_at_the_bird
 
@@ -346,8 +344,8 @@ label start:
         n "I pull myself out of bed and into our modest kitchen."
 
         scene bg kitchen
-
         show maria smile
+        with dissolve
 
         m "Hey, Canary."
 
@@ -431,11 +429,12 @@ label start:
 
         c "You're stuck with me forever, like it or not~!"
 
+        hide canary
+        with dissolve
+
         jump Look_at_the_bird
 
     label Look_at_the_bird:
-        hide canary
-        hide maria
 
         n "We finish breakfast together."
         n "Canary's toast and eggs are fine. They aren't particularly GOOD..."
@@ -579,8 +578,8 @@ label start:
 
     label Siren_goes_off:
         play music "siren.mp3"
-        hide screen stat_buttons with fade 
-        hide screen my_screen with fade
+        hide screen stat_buttons
+        hide screen my_screen
 
         show maria shock
 
@@ -604,6 +603,7 @@ label start:
         hide maria
         scene bg alert
         show canary frown
+        with dissolve
 
         c "It's..."
         # famous last words from real!canary
@@ -621,8 +621,7 @@ label start:
         $ renpy.movie_cutscene("images/intro.webm")
 
         stop music
-        scene bg black
-        with fade
+        scene bg black with fade
 
         jump Main_game
 
@@ -630,8 +629,7 @@ label start:
         c "--aria--!"
         c "Wake up, Maria!"
 
-        scene bg wake1
-        with fade
+        scene bg wake1 with dissolve
         play music "yellow-bells.wav"
         # cg of canary peering down at maria, frown
 
@@ -641,13 +639,13 @@ label start:
         n "The air smells like concrete and must and something burning."
         n "I blink up at her."
 
-        scene bg wake2
+        scene bg wake2 with dissolve
         # same but with smile of relief
 
         c "Oh, you're awake."
         c "Thank god, I thought you were a goner for a second there!"
 
-        scene bg shelter
+        scene bg shelter with dissolve
         show maria shock
         # subconscious: CANARY ALIVE??? BUT CANARY DEAD?????
 
@@ -780,13 +778,12 @@ label start:
         c "Go on!"
 
         hide canary
-
         stop music
 
         jump start_Cookingsequence
 
 label start_Cookingsequence:
-    scene bg shelter
+    scene bg shelter with dissolve
     window hide
 
     # variables
@@ -900,10 +897,12 @@ label Cooking_sequence:
     call screen Cooking_sequence
 
 label Sucessful_cooking:
+    window show
+    play music "yellow-bells.wav"
     hide screen food_puzzle
     scene bg shelter
-    play music "yellow-bells.wav"
-    show maria shock 
+    show maria shock
+    with dissolve
 
     m "That's..."
 
@@ -922,22 +921,23 @@ label Sucessful_cooking:
     n "It's quiet without her."
     n "I try not to think much of it."
     n "{i}*yawn*{/i}"
-    n "All that worrying got me pretty exhausted"
-    n "I'll get some rest"
+    n "All that worrying got me pretty exhausted."
+    n "I'll get some rest."
 
     stop music
-
-    scene bg black
+    scene bg black with fade
 
     jump Fan_sequence
 
 label Failed_cooking:
+    window show
+    play music "yellow-bells.wav"
     hide screen game_over
     hide screen food_puzzle
     scene bg shelter
-    play music "yellow-bells.wav"
     show maria shock
     show burnt
+    with dissolve
 
     m "..."
     m "Ah."
@@ -1038,7 +1038,6 @@ label Failed_cooking:
     c "Just take them already!"
 
     hide canary 
-    with fade
 
     n "I eat her snacks. They're actually pretty good, but they taste like defeat." 
     n "Canary's flitting around the tiny room. Apparently bomb shelter supplies are interesting to her."
@@ -1067,7 +1066,7 @@ label Failed_cooking:
             n "Instead, I settle down in bed next to Canary - our one flat tiny bed - and go to sleep."
 
             stop music
-            scene bg black
+            scene bg black with fade
 
             jump Fan_sequence
 
@@ -1081,33 +1080,26 @@ label FOR_POORER_FOR_RICHER:
 
     # Time passes in the bunker
     # Supplies are dwindling
-    # shown by drawings of dwindling supplies
-    # anary's rations go uneaten in a pile in the corner
+    # Shown by drawings of dwindling supplies
+    # Canary's rations go uneaten in a pile in the corner
     # When Maira is about to starve to death, she finally sees the pile of food
 
     #scene bg fpfr1
-    #with fade
-    # time indicated by calendar crossed out dates, pantry shelves running empty. 
+    # Time indicated by calendar crossed out dates, pantry shelves running empty
     # fpfr1 is full, fpfr2 is medium, etc
 
     n "Days pass."
     n "Or - we think they do. It's hard to tell down here."
 
     #scene bg fpfr2
-    #with fade
 
     n "I keep eating my half. I leave Canary's half."
     n "I tell myself that she's been eating her share when I'm not looking."
 
     #scene bg fpfr3
-    #with fade
 
     n "She must have."
     n "She has to."
-
-    scene bg shelter
-    with fade
-
     n "And then one morning I wake up, and I'm so hungry I can barely sit up straight."
     n "I look in the corner."
     n "And I see it."
@@ -1134,8 +1126,7 @@ label FOR_POORER_FOR_RICHER:
 
     hide maria
 
-    scene bg black
-    with fade
+    scene bg black with fade
 
     ".:. ENDING 2: FOR RICHER, FOR POORER"
 
@@ -1146,10 +1137,10 @@ label FOR_POORER_FOR_RICHER:
 
         "{i}CLANG!{/i}"
 
-        scene bg shelter
-        with fade
         play music "yellow-bells.wav"
+        scene bg shelter
         show maria shock
+        with dissolve
 
         m "What was that?!"
 
@@ -1196,14 +1187,13 @@ label FOR_POORER_FOR_RICHER:
         n "How long has it been pounding?"
         n "I turn over."
 
-        scene bg isaih1
-        with fade
+        scene bg isaih1 with dissolve
         # cg of canary lying in bed, sleepy eyes.. dead wife flashback pose
 
         c "Don't worry, Maria."
         c "We'll be together forever and ever."
 
-        scene bg isaih2
+        scene bg isaih2 with dissolve
         # cg now glitchy/fuzzy/WRONG 
 
         c "Not even death can come between us."
@@ -1214,8 +1204,7 @@ label FOR_POORER_FOR_RICHER:
         n "It's getting hard to breathe."
         n "Everything... hurts..."
 
-        scene bg black
-        with fade
+        scene bg black with fade
         
         ".:. ENDING 3: IN SICKNESS AND IN HEALTH"
 
@@ -1232,6 +1221,7 @@ label FOR_POORER_FOR_RICHER:
 
         scene bg ventclose
         show maria annoyed
+        with dissolve
 
         m "This vent is definitely broken..."
         m "Looks like it's been broken for a while, actually."
@@ -1247,6 +1237,7 @@ label FOR_POORER_FOR_RICHER:
         jump Choose_Book
 
     label Choose_Book:
+        window hide
         call screen book_minigame
 
     screen book_minigame:
@@ -1295,8 +1286,7 @@ label FOR_POORER_FOR_RICHER:
 
         hide maria 
         
-        scene bg ventopen
-        with fade
+        scene bg ventopen with dissolve
 
         call screen vent_minigame
 
@@ -1312,15 +1302,16 @@ label FOR_POORER_FOR_RICHER:
             action [Play("sound", "audio/click.mp3"), Jump ("Maria_has_fixed_the_vent")]
 
     label Maria_has_fixed_the_vent:
-        scene bg ventclose
+        window show
         play music "yellow-bells.wav"
+        scene bg ventclose
         show maria smile
+        with dissolve
 
         m "Yes! Done!"
 
         hide maria
-        scene bg shelter
-        with fade
+        scene bg shelter with dissolve
 
         n "I sit back and feel disproportionately proud of myself."
         n "We're in a nuclear bunker and I fixed a vent. I basically saved the world."
@@ -1475,7 +1466,7 @@ label FOR_POORER_FOR_RICHER:
 
         hide maria 
         scene bg ghosthug
-        with fade
+        with dissolve
 
         n "Her arms trail down my back as we hug, like always."
         n "She squeezes me ever so slightly"
@@ -1492,6 +1483,7 @@ label FOR_POORER_FOR_RICHER:
 
         scene bg shelter
         show canary frown
+        with dissolve
 
         c "Hellooo~?"
         c "...Nothing? Not even a grumble?" 
@@ -1506,14 +1498,13 @@ label FOR_POORER_FOR_RICHER:
 
         c "I'll be right here when you wake up."
 
-        hide canary
-        with fade
+        hide canary with dissolve
         stop music
 
         jump Nightmare
 
     label Nightmare:
-        scene bg black
+        scene bg black with fade
 
         play music "creepy.mp3" fadein 1.0
 
@@ -1524,16 +1515,14 @@ label FOR_POORER_FOR_RICHER:
 
         n "Something is wrong."
 
-        scene bg black
-        with fade
-        # the ceiling?
+        # scene bg ceiling
+        # with dissolve
 
         c "Look at me."
 
-        # canary sitting on the bed facing away from camera:
-        scene bg nightmare1
+        # canary sitting on the bed facing away from camera
+        scene bg nightmare1 with dissolve
         show maria shock 
-        with fade
 
         m "..."
 
@@ -1561,10 +1550,10 @@ label FOR_POORER_FOR_RICHER:
         c "She's still up there. In a way."
         c "Such a small body."
 
-        scene bg nightmare2
+        scene bg nightmare2 with dissolve
         # same as nightmare2 but head turned slightly towards us
         c "But what's the point, right?"
-        # Repeating what canary already said about "what's the point if we're all dead"
+        # repeating what canary already said about "what's the point if we're all dead"
 
         # hide canary 
         show maria pout
@@ -1572,7 +1561,7 @@ label FOR_POORER_FOR_RICHER:
         m "I just... she was ours. Our bird. I'm allowed to..."
 
         hide maria 
-        #show canary wrong 
+        # show canary wrong 
 
         c "What colour were her eyes, Maria?"
 
@@ -1594,7 +1583,7 @@ label FOR_POORER_FOR_RICHER:
                 jump Wrong
 
     label Wrong:
-        scene bg nightmare3
+        scene bg nightmare3 with dissolve
         # the scary!
 
         c "You Don't Remember What She Looks Like"
@@ -1602,12 +1591,12 @@ label FOR_POORER_FOR_RICHER:
         # hide canary 
         show maria sad
 
-        #tears start to flow
+        # tears start to flow
 
         m "..."
 
         hide maria
-        scene bg black
+        scene bg black with dissolve
         # CG switches to Maria's hands in her lap, blurry (as if through Maria's eyes), teardrops on them
 
         c "Look at me. Why won't you look at me?"
@@ -1623,8 +1612,6 @@ label FOR_POORER_FOR_RICHER:
         jump Radio_sequence
 
     label Radio_sequence:
-        scene bg black
-        with fade
         play music static loop
 
         r "--h--he--"
@@ -1635,10 +1622,12 @@ label FOR_POORER_FOR_RICHER:
         r "--ello---"
         r "---a- a-any...b--ody there?-------------"
 
+        n "!!!"
+
         scene bg shelter
         show canary frown
         show radio
-        with fade
+        with dissolve
 
         n "I sit up."
         n "Canary is standing over the radio with her back towards me."
@@ -1692,6 +1681,7 @@ label FOR_POORER_FOR_RICHER:
 
         hide canary
         hide radio
+        with fade
 
         n "She sounds so certain. I want to believe her."
 
@@ -1699,10 +1689,10 @@ label FOR_POORER_FOR_RICHER:
 
         menu:
             n "Do I believe her?"
-            "Yes":
+            "Yes.":
                 jump TILL_DEATH_DO_US_PART
 
-            "No":
+            "No.":
                 jump Maria_disbelieves_Canary
 
     label TILL_DEATH_DO_US_PART:
@@ -1720,25 +1710,23 @@ label FOR_POORER_FOR_RICHER:
 
         c "Come on. Don't waste your energy on that thing."
 
-        hide canary
-        hide bg shelter
-        with fade
-
         #Cutscne 4: Time passes in the bunker
         #Shown by drawings of supplies dwindling or Maria sitting at a table with Canary, who over snapshots of time, remains the same while Maria deteriorates
 
+        hide canary
+        hide bg shelter
         scene bg tddup1
         with fade
         # maria and canary sitting at the bunker table
 
         n "I stop listening for the radio."
 
-        scene bg tddup2
+        scene bg tddup2 with dissolve
         # same pose, same table - canary looks exact same, maria looks more gaunt + tired. supplies in bg dwindling
 
         n "I stop counting the days, after a while."
 
-        scene bg tddup3
+        scene bg tddup3 with dissolve
         # same gimmick, maria looks Very Rough now... verge of death-ish
         # the final conversation
 
@@ -1768,8 +1756,7 @@ label FOR_POORER_FOR_RICHER:
 
         m "..."
 
-        scene bg black
-        with fade
+        scene bg black with fade
 
         c "Then..."
         c "Will you join me?"
@@ -1805,9 +1792,9 @@ label FOR_POORER_FOR_RICHER:
         c "You have me, after all."
 
         stop music
+        play music static loop
         hide canary 
         show radio
-        play music static loop
 
         r "--h--hello? Is anyone out there?"
         r "I've got the signal working. I don't know how long it'll hold..."
@@ -1873,9 +1860,10 @@ label FOR_POORER_FOR_RICHER:
 
         c "Didn't you mean it?"
 
+        stop music
         hide radio 
         hide canary
-        stop music
+        with fade
 
         menu:
             n "Make the choice."
@@ -1918,19 +1906,19 @@ label FOR_POORER_FOR_RICHER:
 
         m "You..."
 
-        scene bg flashback1
+        scene bg flashback1 with dissolve
         # canary running back
 
         m "You went back for the bird."
         m "You went back, and you didn't--"
 
-        scene bg flashback2
+        scene bg flashback2 with dissolve
         # canary with the cage in her hands, far away, realising she's not gonna make it
         show maria sad
 
         m "You couldn't--"
 
-        scene bg shelter
+        scene bg shelter with dissolve
         show maria pout 
 
         m "..."
@@ -1961,7 +1949,7 @@ label FOR_POORER_FOR_RICHER:
 
         #Flashes of the final cutscene is shown
 
-        scene bg black
+        scene bg black with fade
 
         ".:. ENDING 1: FOR BETTER OR FOR WORSE?"
 
@@ -1974,20 +1962,21 @@ label FOR_POORER_FOR_RICHER:
         n "She's never been scared."
         n "That's always been my job."
         
-        scene bg flashback1
+        scene bg flashback1 with dissolve
         n "The Canary I know laughs too loud in libraries, "
         n "and pets every stray animal she finds,"
 
-        scene bg flashback2
+        scene bg flashback2 with dissolve
         n "and never once in her life worried about being safe or careful."
 
-        scene bg flashback3
+        scene bg flashback3 with dissolve
         # closeup of canary's face as the blast approaches, soft teary smile. an "i'm sorry" or "it's okay" smile
         m "She runs towards things."
         m "She wouldn't tell me to stay."
 
         scene bg shelter
         show maria neut
+        with dissolve
 
         m "I'm going."
         m "You can stay here if you want."
